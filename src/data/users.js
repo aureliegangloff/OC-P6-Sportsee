@@ -1,6 +1,6 @@
 export const users = [
   {
-    userId: "user123",
+    id: "123",
     username: "sophiemartin",
     password: "password123",
     profile: {
@@ -19,7 +19,7 @@ export const users = [
     },
   },
   {
-    userId: "user789",
+    id: "789",
     username: "emmaleroy",
     password: "password789",
     profile: {
@@ -38,7 +38,7 @@ export const users = [
     },
   },
   {
-    userId: "user456",
+    id: "456",
     username: "marcdubois",
     password: "password456",
 

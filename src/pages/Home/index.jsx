@@ -3,31 +3,20 @@ import { useNavigate } from "react-router";
 import styles from "./Home.module.css";
 import logo from "../../assets/logo.png";
 import { users } from "../../data/users";
+import { setCookie } from "../../utils/cookies";
 
 function Home() {
-  const navigate = useNavigate();
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
-  });
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    setCredentials((prevCredentials) => ({
-      ...prevCredentials,
-      [name]: value,
-    }));
-  };
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const matchedUser = users.find(
-      (user) =>
-        user.username === credentials.username.trim() &&
-        user.password === credentials.password,
+      (user) => user.username === username.trim() && user.password === password,
     );
 
     if (!matchedUser) {
@@ -36,18 +25,14 @@ function Home() {
     }
 
     setError("");
-    navigate(`/user/${matchedUser.userId}`);
+    setCookie("sportsee_token", matchedUser.id, 1);
+    navigate(`/dashboard/${matchedUser.id}`);
   };
 
   return (
     <div className={styles.home}>
       <main className={styles.main}>
-        <img
-          src={logo}
-          alt="Logo Sportsee"
-          width="157"
-          className={styles["banner-logo"]}
-        />
+        <img src={logo} alt="Logo Sportsee" width="157" />
 
         <div className={styles.card}>
           <h1>Transformez vos stats en résultats</h1>
@@ -60,8 +45,8 @@ function Home() {
                 type="text"
                 id="username"
                 name="username"
-                value={credentials.username}
-                onChange={handleChange}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
@@ -71,8 +56,8 @@ function Home() {
                 type="password"
                 id="password"
                 name="password"
-                value={credentials.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 

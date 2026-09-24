@@ -1,0 +1,24 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.account-nav nav {
+  display: flex;
+  flex-direction: row;
+
+  a {
+    margin-right: 15px;
+  }
+}
+
+.account-content {
+  flex: 1;
+}

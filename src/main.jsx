@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import AccountLayout from "./pages/Account/Layout";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import ErrorPage from "./pages/Error";
 
 const router = createBrowserRouter([
   {
@@ -17,9 +18,13 @@ const router = createBrowserRouter([
       {
         Component: AccountLayout,
         children: [
-          { path: "/user/:userId", Component: Dashboard },
-          { path: "/user/:userId/profile", Component: Profile },
+          { path: "/dashboard/:userId", Component: Dashboard },
+          { path: "/profile/:userId", Component: Profile },
         ],
+      },
+      {
+        path: "*",
+        Component: ErrorPage,
       },
     ],
   },
