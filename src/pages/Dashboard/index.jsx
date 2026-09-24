@@ -3,7 +3,7 @@ import { users } from "../../data/users";
 
 function Dashboard() {
   const { userId } = useParams();
-  const user = users.find((item) => item.userId === userId);
+  const user = users.find((item) => item.id === userId);
 
   if (!user) {
     return (

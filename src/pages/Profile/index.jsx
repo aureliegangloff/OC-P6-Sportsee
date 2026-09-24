@@ -3,7 +3,7 @@ import { users } from "../../data/users";
 
 function Profile() {
   const { userId } = useParams();
-  const user = users.find((item) => item.userId === userId);
+  const user = users.find((item) => item.id === userId);
 
   const { firstName, lastName } = user.profile;
   return (
