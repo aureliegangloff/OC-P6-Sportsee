@@ -6,9 +6,10 @@ import "./index.css";
 import MainLayout from "./pages/Layout";
 import Home from "./pages/Home";
 import AccountLayout from "./pages/Account/Layout";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
+import DashboardPage from "./pages/Dashboard";
+import ProfilePage from "./pages/Profile";
 import ErrorPage from "./pages/Error";
+import { AuthProvider } from "./utils/context";
 
 const router = createBrowserRouter([
   {
@@ -18,8 +19,8 @@ const router = createBrowserRouter([
       {
         Component: AccountLayout,
         children: [
-          { path: "/dashboard/:userId", Component: Dashboard },
-          { path: "/profile/:userId", Component: Profile },
+          { path: "/dashboard/:userId", Component: DashboardPage },
+          { path: "/profile/:userId", Component: ProfilePage },
         ],
       },
       {
@@ -32,6 +33,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );

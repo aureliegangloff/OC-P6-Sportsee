@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import styles from "./Home.module.css";
 import logo from "../../assets/logo.png";
 import { users } from "../../data/users";
-import { setCookie } from "../../utils/cookies";
+
+import { AuthContext } from "../../utils/context";
 
 function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,7 +26,7 @@ function Home() {
     }
 
     setError("");
-    setCookie("sportsee_token", matchedUser.id, 1);
+    login(matchedUser.token);
     navigate(`/dashboard/${matchedUser.id}`);
   };
 
@@ -63,9 +64,13 @@ function Home() {
 
             {error && <p role="alert">{error}</p>}
 
-            <button type="submit">Se connecter</button>
+            <button className={`${styles.submitBtn}, btn-blue`} type="submit">
+              Se connecter
+            </button>
           </form>
-          <a href="#">Mot de passe oublié ?</a>
+          <a href="#" className={styles.forget}>
+            Mot de passe oublié ?
+          </a>
         </div>
       </main>
       <aside className={styles.aside}>

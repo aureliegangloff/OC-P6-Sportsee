@@ -1,0 +1,77 @@
+.profileCard {
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0) -8.38%,
+    #ffffff 100%
+  );
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 52px;
+
+  h1 {
+    color: var(--text-h);
+    font-weight: normal;
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+}
+
+.leftProfileCard {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  gap: 38px;
+}
+.wrapperPicture {
+  border-radius: 10px;
+  overflow: hidden;
+  width: 104px;
+  height: 117px;
+  img {
+    object-fit: cover;
+    transition: transform 300ms ease;
+  }
+
+  &:hover {
+    img {
+      transform: scale(1.15);
+    }
+  }
+}
+
+.rightProfileCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.distance {
+  background-color: var(--primary);
+  color: #fff;
+  border-radius: 10px;
+  padding: 28px;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 19px;
+    font-size: 22px;
+    animation: slide-in 1200ms ease-in-out 300ms both;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,13 @@
+.performancesSection {
+  margin-top: 110px;
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+  }
+}
+
+.weekSection {
+  margin-top: 70px;
+}

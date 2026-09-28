@@ -1,6 +1,6 @@
-const userActivity = [
+export const userActivity = [
   {
-    id: "user123",
+    id: "123",
     activities: [
       {
         date: "2025-05-01",

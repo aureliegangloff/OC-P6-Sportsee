@@ -1,16 +1,19 @@
 import { Outlet, Link, useNavigate, useParams } from "react-router";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+
 import { users } from "../data/users";
 import logo from "../assets/logo.png";
+import iconLogo from "../assets/icon-logo.png";
+import { AuthContext } from "../utils/context";
 import "./Layout.css";
-import { deleteCookie, getCookie } from "../utils/cookies";
 
 function MainLayout() {
   const { userId } = useParams();
   const navigate = useNavigate();
-  const user = users.find((item) => item.id === userId);
-  const token = getCookie("sportsee_token");
-  const hasValidSession = Boolean(user && token && token === user.id);
+  const { token, logout } = useContext(AuthContext);
+
+  const user = users.find((item) => item.id === (token ?? userId));
+  const hasValidSession = Boolean(token && user && user.id === token);
 
   useEffect(() => {
     if (!hasValidSession && window.location.pathname !== "/") {
@@ -19,7 +22,7 @@ function MainLayout() {
   }, [hasValidSession, navigate]);
 
   const handleLogout = () => {
-    deleteCookie("sportsee_token");
+    logout();
     navigate("/", { replace: true });
   };
 
@@ -28,25 +31,36 @@ function MainLayout() {
   }
 
   return (
-    <div className="page">
-      <header>
-        <img src={logo} alt="Logo Sportsee" width="157" height="24" />
-        <div className="account-nav">
-          <nav>
-            <Link to={`/dashboard/${user.id}`}>Dashboard</Link>
-            <Link to={`/profile/${user.id}`}>Mon profil</Link>
-            <button type="button" onClick={handleLogout}>
-              Se déconnecter
-            </button>
-          </nav>
-        </div>
-      </header>
+    <>
+      <div className="container">
+        <header>
+          <img src={logo} alt="Logo Sportsee" width="157" height="24" />
+          <div className="account-nav">
+            <nav>
+              <Link to={`/dashboard/${user.id}`}>Dashboard</Link>
+              <Link to={`/profile/${user.id}`}>Mon profil</Link>
+              <button type="button" onClick={handleLogout}>
+                Se déconnecter
+              </button>
+            </nav>
+          </div>
+        </header>
 
-      <div className="account-content">
-        <Outlet />
+        <div className="account-content">
+          <Outlet />
+        </div>
       </div>
-      <footer>Mon footer</footer>
-    </div>
+      <footer>
+        <div className="container-footer">
+          <p>©Sportsee Tous droits réservés</p>
+          <div className="nav-footer">
+            <a href="#">Conditions générales</a>
+            <a href="#">Contact</a>
+            <img src={iconLogo} width="19" height="21" />
+          </div>
+        </div>
+      </footer>
+    </>
   );
 }
 export default MainLayout;

@@ -54,13 +54,11 @@ h2 {
 .inputgroup {
   margin-bottom: 24px;
 }
-button {
+.submitBtn {
   margin-top: calc(40px - 24px);
 }
 
-a {
-  text-decoration: none;
-  color: var(--text-h);
+.forget {
   margin-top: 40px;
   display: block;
 }

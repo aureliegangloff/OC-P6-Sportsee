@@ -1,18 +1,22 @@
-import { useParams } from "react-router";
-import { users } from "../../data/users";
+import { useContext } from "react";
+import { Navigate, useParams } from "react-router";
 
-function Profile() {
+import ProfileCard from "../../components/ProfileCard";
+import { AuthContext } from "../../utils/context";
+
+function ProfilePage() {
   const { userId } = useParams();
-  const user = users.find((item) => item.id === userId);
+  const { token } = useContext(AuthContext);
 
-  const { firstName, lastName } = user.profile;
+  if (!token || token !== userId) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <div className="profile">
-      <h1>Mon profil</h1>
-      <p>
-        Bonjour {firstName} {lastName}
-      </p>
+      <ProfileCard />
     </div>
   );
 }
-export default Profile;
+
+export default ProfilePage;

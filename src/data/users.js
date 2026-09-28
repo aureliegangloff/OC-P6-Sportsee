@@ -3,6 +3,7 @@ export const users = [
     id: "123",
     username: "sophiemartin",
     password: "password123",
+    token: "token123",
     profile: {
       firstName: "Sophie",
       lastName: "Martin",
@@ -22,6 +23,7 @@ export const users = [
     id: "789",
     username: "emmaleroy",
     password: "password789",
+    token: "token789",
     profile: {
       firstName: "Emma",
       lastName: "Leroy",
@@ -41,7 +43,7 @@ export const users = [
     id: "456",
     username: "marcdubois",
     password: "password456",
-
+    token: "token456",
     profile: {
       firstName: "Marc",
       lastName: "Dubois",
