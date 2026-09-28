@@ -13,7 +13,7 @@ function DashboardPage() {
   const { token } = useContext(AuthContext);
   const user = users.find((item) => item.id === userId);
 
-  if (!token || token !== userId) {
+  if (!token) {
     return <Navigate to="/" replace />;
   }
 

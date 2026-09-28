@@ -12,8 +12,8 @@ function MainLayout() {
   const navigate = useNavigate();
   const { token, logout } = useContext(AuthContext);
 
-  const user = users.find((item) => item.id === (token ?? userId));
-  const hasValidSession = Boolean(token && user && user.id === token);
+  const user = users.find((item) => item.id === userId);
+  const hasValidSession = Boolean(token && user);
 
   useEffect(() => {
     if (!hasValidSession && window.location.pathname !== "/") {
