@@ -1,17 +1,14 @@
-import { Link, Navigate, useParams } from "react-router";
+import { Link, Navigate } from "react-router";
 import { useContext } from "react";
 
-import { users } from "../../data/users";
 import ProfileCard from "../../components/ProfileCard";
 import KmCard from "../../components/KmCard/KmCard.jsx";
 import styles from "./Dashboard.module.css";
 import BpmCard from "../../components/BpmCard/BpmCard.jsx";
-import { AuthContext } from "../../utils/context";
+import AuthContext from "../../utils/context/AuthContext";
 
 function DashboardPage() {
-  const { userId } = useParams();
-  const { token } = useContext(AuthContext);
-  const user = users.find((item) => item.id === userId);
+  const { token, user } = useContext(AuthContext);
 
   if (!token) {
     return <Navigate to="/" replace />;

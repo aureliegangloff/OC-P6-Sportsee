@@ -4,7 +4,7 @@ import styles from "./Home.module.css";
 import logo from "../../assets/logo.png";
 import { users } from "../../data/users";
 
-import { AuthContext } from "../../utils/context";
+import AuthContext from "../../utils/context/AuthContext";
 
 function Home() {
   const [username, setUsername] = useState("");
@@ -26,7 +26,7 @@ function Home() {
     }
 
     setError("");
-    login(matchedUser.token);
+    login(matchedUser.token, matchedUser.id);
     navigate(`/dashboard/${matchedUser.id}`);
   };
 

@@ -14,6 +14,7 @@ function ProfileCard() {
   const { firstName, lastName } = user.profile;
   const memberSince = new Date(user.profile.createdAt).toLocaleDateString(
     "fr-FR",
+    { day: "numeric", month: "long", year: "numeric" },
   );
 
   return (

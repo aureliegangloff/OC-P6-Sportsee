@@ -4,7 +4,7 @@ import { useContext, useEffect } from "react";
 import { users } from "../data/users";
 import logo from "../assets/logo.png";
 import iconLogo from "../assets/icon-logo.png";
-import { AuthContext } from "../utils/context";
+import AuthContext from "../utils/context/AuthContext";
 import "./Layout.css";
 
 function MainLayout() {
