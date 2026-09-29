@@ -13,7 +13,7 @@ function ProfilePage() {
 
   return (
     <div className="profile">
-      <ProfileCard />
+      <ProfileCard distance={false} />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { users } from "../../data/users";
 import pictoDistance from "../../assets/picto-distance.png";
 
-function ProfileCard() {
+function ProfileCard({ distance = true }) {
   const { userId } = useParams();
   const user = users.find((item) => item.id === userId);
 
@@ -30,15 +30,17 @@ function ProfileCard() {
           <p>Membre depuis le {memberSince}</p>
         </div>
       </div>
-      <div className={styles.rightProfileCard}>
-        <p>Distance totale parcourue</p>
-        <div className={styles.distance}>
-          <span>
-            <img src={pictoDistance} alt="" width="34" height="34" />
-            {user.statistics.totalDistance} km
-          </span>
+      {distance && (
+        <div className={styles.rightProfileCard}>
+          <p>Distance totale parcourue</p>
+          <div className={styles.distance}>
+            <span>
+              <img src={pictoDistance} alt="" width="34" height="34" />
+              {user.statistics.totalDistance} km
+            </span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
