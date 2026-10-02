@@ -9,8 +9,10 @@ function KmCard() {
   const startDate = new Date().toDateString();
   const endDate = new Date().toDateString();
   const average = activityUser.length
-    ? activityUser.reduce((total, activity) => total + activity.distance, 0) /
-      activityUser.length
+    ? Math.round(
+        activityUser.reduce((total, activity) => total + activity.distance, 0) /
+          activityUser.length,
+      )
     : 0;
 
   return (

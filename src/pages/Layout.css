@@ -4,6 +4,8 @@
   margin: 35px auto 0;
   max-width: 1440px;
   padding: 0 150px;
+  width: 100%;
+  flex: 1;
 }
 
 header {
@@ -33,6 +35,7 @@ header {
   button {
     position: relative;
     margin-left: 40px;
+    color: var(--primary);
     &::before {
       content: "";
       display: block;
@@ -52,6 +55,7 @@ header {
 footer {
   background-color: #fff;
   color: var(--text-h);
+  flex-shrink: 0;
 }
 .container-footer {
   max-width: 1440px;

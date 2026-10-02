@@ -5,6 +5,7 @@
   --text-h: #111111;
   --bg: #f2f3ff;
   --primary: #0b23f4;
+  --secondary: #f4320b;
   --border: #717171;
 
   --font: "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
@@ -22,9 +23,17 @@
   box-sizing: border-box;
 }
 
-body {
+body,
+html {
   margin: 0;
+  height: 100%;
+}
+
+/* app container */
+#root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 h1,
@@ -90,15 +99,20 @@ form {
 }
 
 .card {
-  display: flex;
   background-color: #fff;
   border-radius: 10px;
-  padding: 16px 40px;
-  flex: 1 0 0;
-}
-
-/* app container */
-#root {
-  min-height: 100vh;
+  padding: 26px 40px;
   width: 100%;
+
+  hr {
+    margin-bottom: 32px;
+    display: block;
+    border: 0;
+    border-top: 1px solid #e7e7e7;
+  }
+}
+.card-body {
+  p {
+    margin-bottom: 24px;
+  }
 }

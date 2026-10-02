@@ -1,4 +1,4 @@
-.profileCard {
+.userCard {
   background: linear-gradient(
     0deg,
     rgba(255, 255, 255, 0) -8.38%,
@@ -16,9 +16,13 @@
     font-size: 22px;
     margin-bottom: 4px;
   }
+
+  &.bgwhite {
+    background: #fff;
+  }
 }
 
-.leftProfileCard {
+.leftUserCard {
   display: flex;
   flex-direction: row;
 
@@ -42,7 +46,7 @@
   }
 }
 
-.rightProfileCard {
+.rightUserCard {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

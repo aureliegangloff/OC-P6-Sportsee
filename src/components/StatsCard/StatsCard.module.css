@@ -1,0 +1,27 @@
+.statsCard {
+  h2 {
+    margin-bottom: 5px;
+  }
+}
+.gridStatsCard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 19px;
+  margin-top: 32px;
+}
+.statCard {
+  background: var(--primary);
+  border-radius: 10px;
+  padding: 28px;
+  color: #b6bdfc;
+
+  p {
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  span {
+    font-size: 22px;
+    color: #fff;
+  }
+}

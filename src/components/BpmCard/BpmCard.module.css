@@ -1,4 +1,4 @@
-.kmCard {
+.BpmCard {
   width: 100%;
 }
 .header {
@@ -12,5 +12,5 @@
 .title {
   font-size: 22px;
   font-weight: 500;
-  color: var(--primary);
+  color: var(--secondary);
 }
