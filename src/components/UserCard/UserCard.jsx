@@ -4,7 +4,7 @@ import pictoDistance from "../../assets/picto-distance.png";
 import { useContext } from "react";
 import AuthContext from "../../utils/context/AuthContext";
 
-function UserCard({ distance }) {
+function UserCard({ distance = false }) {
   const { user } = useContext(AuthContext);
 
   if (!user) {

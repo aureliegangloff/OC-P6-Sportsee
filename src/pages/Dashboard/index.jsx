@@ -1,5 +1,6 @@
 import { Link, Navigate } from "react-router";
 import { useContext } from "react";
+import { getLastMonday, getNextSunday } from "../../utils/dates";
 
 import UserCard from "../../components/UserCard/UserCard.jsx";
 import KmCard from "../../components/KmCard/KmCard.jsx";
@@ -26,53 +27,45 @@ function DashboardPage() {
   const nbActivities = activityUser.length - 1;
   const dateLastActivity = new Date(activityUser[nbActivities].date);
 
-  function getLastMonday(date) {
-    // getDay() renvoie : 0 pour dimanche, 1 pour lundi, ..., 6 pour samedi
-    const dayOfTheWeek = date.getDay();
-
-    // Si c'est dimanche (0), on doit reculer de 6 jours.
-    // Sinon, on recule de (jourSemaine - 1) jours.
-    const daysToSubtract = dayOfTheWeek === 0 ? 6 : dayOfTheWeek - 1;
-
-    // Modifier la date en soustrayant les jours
-    date.setDate(date.getDate() - daysToSubtract);
-
-    return date;
-  }
-
-  function getNextSunday(date) {
-    const dayOfTheWeek = date.getDay();
-    // Si c'est dimanche (0), on avance de 7 jours (ou 0 si vous voulez le jour même)
-    // Sinon, on fait (7 - jourSemaine) pour atteindre le dimanche
-    const daysToAdd = dayOfTheWeek === 0 ? 0 : 7 - dayOfTheWeek;
-    date.setDate(date.getDate() + daysToAdd);
-
-    return date;
-  }
-
   const lastMonday = getLastMonday(new Date(dateLastActivity));
   const nextSunday = getNextSunday(new Date(dateLastActivity));
 
-  const startWeekDate = new Date(lastMonday).toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  const endWeekDate = new Date(nextSunday).toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const startWeekDate = new Date(lastMonday).toLocaleDateString("fr-FR");
+  const endWeekDate = new Date(nextSunday).toLocaleDateString("fr-FR");
+
+  // Calculate dates for last 4 weeks
+  const makeWeek = (offset) => {
+    const start = new Date(lastMonday);
+    const end = new Date(nextSunday);
+
+    start.setDate(start.getDate() + offset);
+    end.setDate(end.getDate() + offset);
+
+    return { start, end };
+  };
+
+  const S1 = makeWeek(-21);
+  const S2 = makeWeek(-14);
+  const S3 = makeWeek(-7);
+  const S4 = makeWeek(0);
+
+  // const data = [
+  //   { start: S1.start.toLocaleDateString(), end: S1.end.toLocaleDateString() },
+  //   { start: S2.start.toLocaleDateString(), end: S2.end.toLocaleDateString() },
+  //   { start: S3.start.toLocaleDateString(), end: S3.end.toLocaleDateString() },
+  //   { start: S4.start.toLocaleDateString(), end: S4.end.toLocaleDateString() },
+  // ];
+  // console.log("data", data);
 
   return (
     <div className="dashboard">
-      <UserCard />
+      <UserCard distance={true} />
 
       <section className={styles.performancesSection}>
         <h2>Vos dernières performances</h2>
         <div>
           <div className="card">
-            <KmCard />
+            <KmCard S1={S1} S2={S2} S3={S3} S4={S4} />
           </div>
           <div className="card">
             <BpmCard startWeekDate={lastMonday} endWeekDate={nextSunday} />

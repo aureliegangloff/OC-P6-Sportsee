@@ -18,7 +18,7 @@ function ProfilePage() {
   return (
     <div className={styles.profile}>
       <div className={styles.col}>
-        <UserCard distance={false} />
+        <UserCard />
         <ProfileCard />
       </div>
       <div className={styles.col}>

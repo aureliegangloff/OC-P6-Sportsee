@@ -28,9 +28,12 @@ function StatsCard() {
   );
 
   const restDays = (createdAt, activityUser) => {
-    // Implementation for calculating rest days
     const startDate = new Date(createdAt);
-    const endDate = new Date();
+    const endDate = new Date(
+      activityUser.length
+        ? activityUser[activityUser.length - 1].date
+        : new Date(),
+    );
     const totalDays = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
     const activeDays = activityUser.length;
     return totalDays - activeDays;

@@ -14,3 +14,7 @@
   font-weight: 500;
   color: var(--primary);
 }
+
+.graph {
+  margin-top: 40px;
+}
