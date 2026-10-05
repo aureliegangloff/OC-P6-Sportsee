@@ -5,10 +5,39 @@ import RangeDate from "../RangeDate/RangeDate";
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 
-function KmCard({ S1, S2, S3, S4 }) {
+function KmCard() {
   const { activityUser } = useContext(AuthContext);
 
+  const lastActivityDate = activityUser[activityUser.length - 1].date;
+
+  function getStartDate(lastActivityDate) {
+    const startDate = new Date(lastActivityDate);
+    startDate.setDate(startDate.getDate() - 27);
+    return startDate;
+  }
+  const startDate = getStartDate(lastActivityDate);
+
+  // State for the selected date range
+  const [startMonthDate, setStartMonthDate] = useState(startDate);
+  const [endMonthDate, setEndMonthDate] = useState(
+    () => new Date(lastActivityDate),
+  );
+
+  // Generate an array of weeks within the selected date range
+  const weeks = Array.from({ length: 4 }, (_, weekIndex) => {
+    const start = new Date(startMonthDate);
+    start.setDate(start.getDate() + weekIndex * 7);
+
+    const end = new Date(start);
+    end.setDate(end.getDate() + 6);
+
+    return { start, end };
+  });
+
+  console.log("weeks", weeks);
+
   function calculateDistanceForWeek(week) {
+    // array of activities within the week
     const weekActivities = activityUser.filter((activity) => {
       const activityDate = new Date(activity.date);
       return activityDate >= week.start && activityDate <= week.end;
@@ -19,12 +48,10 @@ function KmCard({ S1, S2, S3, S4 }) {
     );
   }
 
-  const data = [
-    { week: "S1", km: calculateDistanceForWeek(S1) },
-    { week: "S2", km: calculateDistanceForWeek(S2) },
-    { week: "S3", km: calculateDistanceForWeek(S3) },
-    { week: "S4", km: calculateDistanceForWeek(S4) },
-  ];
+  const data = weeks.map((week, index) => ({
+    week: `S${index + 1}`,
+    km: calculateDistanceForWeek(week),
+  }));
 
   const averageLastMonth = data.length
     ? Math.round(
@@ -32,19 +59,16 @@ function KmCard({ S1, S2, S3, S4 }) {
       )
     : 0;
 
-  // State for the selected date range
-  const [startLastMonthDate, setStartLastMonthDate] = useState(S1.start);
-  const [endLastMonthDate, setEndLastMonthDate] = useState(S4.end);
-
   return (
     <div className={styles.kmCard}>
       <div className={styles.header}>
         <div className={styles.title}>{averageLastMonth}km en moyenne</div>
         <RangeDate
-          startDate={startLastMonthDate}
-          setStartLastMonthDate={setStartLastMonthDate}
-          endDate={endLastMonthDate}
-          setEndLastMonthDate={setEndLastMonthDate}
+          startDate={startMonthDate}
+          setStartDate={setStartMonthDate}
+          endDate={endMonthDate}
+          setEndDate={setEndMonthDate}
+          typeRange="month"
         />
       </div>
       Total des kilomètres 4 dernières semaines

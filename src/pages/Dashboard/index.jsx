@@ -25,37 +25,13 @@ function DashboardPage() {
   }
 
   const nbActivities = activityUser.length - 1;
-  const dateLastActivity = new Date(activityUser[nbActivities].date);
+  const dateLastActivity = activityUser[nbActivities].date;
 
   const lastMonday = getLastMonday(new Date(dateLastActivity));
   const nextSunday = getNextSunday(new Date(dateLastActivity));
 
   const startWeekDate = new Date(lastMonday).toLocaleDateString("fr-FR");
   const endWeekDate = new Date(nextSunday).toLocaleDateString("fr-FR");
-
-  // Calculate dates for last 4 weeks
-  const makeWeek = (offset) => {
-    const start = new Date(lastMonday);
-    const end = new Date(nextSunday);
-
-    start.setDate(start.getDate() + offset);
-    end.setDate(end.getDate() + offset);
-
-    return { start, end };
-  };
-
-  const S1 = makeWeek(-21);
-  const S2 = makeWeek(-14);
-  const S3 = makeWeek(-7);
-  const S4 = makeWeek(0);
-
-  // const data = [
-  //   { start: S1.start.toLocaleDateString(), end: S1.end.toLocaleDateString() },
-  //   { start: S2.start.toLocaleDateString(), end: S2.end.toLocaleDateString() },
-  //   { start: S3.start.toLocaleDateString(), end: S3.end.toLocaleDateString() },
-  //   { start: S4.start.toLocaleDateString(), end: S4.end.toLocaleDateString() },
-  // ];
-  // console.log("data", data);
 
   return (
     <div className="dashboard">
@@ -65,7 +41,7 @@ function DashboardPage() {
         <h2>Vos dernières performances</h2>
         <div>
           <div className="card">
-            <KmCard S1={S1} S2={S2} S3={S3} S4={S4} />
+            <KmCard />
           </div>
           <div className="card">
             <BpmCard startWeekDate={lastMonday} endWeekDate={nextSunday} />

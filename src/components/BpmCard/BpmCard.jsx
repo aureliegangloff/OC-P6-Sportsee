@@ -1,5 +1,5 @@
 import styles from "./BpmCard.module.css";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../../utils/context/AuthContext";
 import RangeDate from "../RangeDate/RangeDate";
 
@@ -15,11 +15,19 @@ function BpmCard({ startWeekDate, endWeekDate }) {
       )
     : 0;
 
+  const [startDate, setStartDate] = useState(startWeekDate);
+  const [endDate, setEndDate] = useState(endWeekDate);
+
   return (
     <div className={styles.BpmCard}>
       <div className={styles.header}>
         <div className={styles.title}>{bpmAverage} BPM</div>
-        <RangeDate startDate={startWeekDate} endDate={endWeekDate} />
+        <RangeDate
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+        />
       </div>
       Fréquence cardiaque moyenne
       <div className="graph">Le graphique ici</div>
