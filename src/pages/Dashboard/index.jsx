@@ -6,6 +6,8 @@ import UserCard from "../../components/UserCard/UserCard.jsx";
 import KmCard from "../../components/KmCard/KmCard.jsx";
 import styles from "./Dashboard.module.css";
 import BpmCard from "../../components/BpmCard/BpmCard.jsx";
+import GoalCard from "../../components/GoalCard/GoalCard.jsx";
+
 import AuthContext from "../../utils/context/AuthContext";
 
 function DashboardPage() {
@@ -33,6 +35,21 @@ function DashboardPage() {
   const startWeekDate = new Date(lastMonday).toLocaleDateString("fr-FR");
   const endWeekDate = new Date(nextSunday).toLocaleDateString("fr-FR");
 
+  const weekActivities = activityUser.filter((activity) => {
+    const activityDate = new Date(activity.date);
+    return activityDate >= lastMonday && activityDate <= nextSunday;
+  });
+  const weeklyRaces = weekActivities.length;
+
+  const activityDuration = weekActivities.reduce(
+    (total, activity) => total + activity.duration,
+    0,
+  );
+  const distance = weekActivities.reduce(
+    (total, activity) => total + activity.distance,
+    0,
+  );
+
   return (
     <div className="dashboard">
       <UserCard distance={true} />
@@ -40,7 +57,7 @@ function DashboardPage() {
       <section className={styles.performancesSection}>
         <h2>Vos dernières performances</h2>
         <div>
-          <div className="card">
+          <div className="card short-card">
             <KmCard />
           </div>
           <div className="card">
@@ -54,7 +71,25 @@ function DashboardPage() {
         <p>
           Du {startWeekDate} au {endWeekDate}
         </p>
-        <div></div>
+        <div>
+          <div className="card short-card">
+            <GoalCard weeklyRaces={weeklyRaces} />
+          </div>
+          <div className={styles.colLeft}>
+            <div className="card">
+              <p>Durée d'activité</p>
+              <div className={styles.activityDuration}>
+                <span>{activityDuration}</span> minutes
+              </div>
+            </div>
+            <div className="card">
+              <p>Distance</p>
+              <div className={styles.distance}>
+                <span>{distance}</span> kilomètres
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );

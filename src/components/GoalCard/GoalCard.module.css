@@ -1,0 +1,16 @@
+.header {
+  .title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 16px;
+    color: #b6bdfc;
+    gap: 7px;
+    margin-bottom: 5px;
+    span {
+      font-size: 28px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+  }
+}

@@ -91,6 +91,17 @@ export const userActivity = [
         caloriesBurned: 665,
       },
       {
+        date: "2025-06-11",
+        distance: 6.3,
+        duration: 40,
+        heartRate: {
+          min: 142,
+          max: 177,
+          average: 115,
+        },
+        caloriesBurned: 445,
+      },
+      {
         date: "2025-06-12",
         distance: 6.3,
         duration: 40,
@@ -98,6 +109,28 @@ export const userActivity = [
           min: 142,
           max: 177,
           average: 164,
+        },
+        caloriesBurned: 445,
+      },
+      {
+        date: "2025-06-13",
+        distance: 3,
+        duration: 40,
+        heartRate: {
+          min: 142,
+          max: 177,
+          average: 150,
+        },
+        caloriesBurned: 445,
+      },
+      {
+        date: "2025-06-14",
+        distance: 3,
+        duration: 40,
+        heartRate: {
+          min: 142,
+          max: 177,
+          average: 170,
         },
         caloriesBurned: 445,
       },

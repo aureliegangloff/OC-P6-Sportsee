@@ -45,16 +45,10 @@ h2 {
 
 h1 {
   font-size: 28px;
-  letter-spacing: -1.68px;
 }
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+  font-size: 22px;
+  font-weight: 500;
 }
 p {
   margin: 0;
@@ -104,6 +98,10 @@ form {
   padding: 26px 40px;
   width: 100%;
 
+  &.short-card {
+    max-width: 445px;
+  }
+
   hr {
     margin-bottom: 32px;
     display: block;
@@ -114,5 +112,82 @@ form {
 .card-body {
   p {
     margin-bottom: 24px;
+  }
+}
+
+.graph {
+  margin-top: 40px;
+  position: relative;
+
+  &.graph-center {
+    > div {
+      margin: 0 auto;
+    }
+  }
+}
+.legend-graph {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-left: 23px;
+  margin-top: 15px;
+}
+.item-legend-graph {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #000;
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+
+  &.km {
+    &::before {
+      background-color: #7987ff;
+    }
+  }
+
+  &.min-bpm {
+    &::before {
+      background-color: #fcc1b6;
+    }
+  }
+  &.max-bpm {
+    &::before {
+      background-color: var(--secondary);
+    }
+  }
+  &.average-bpm {
+    &::before {
+      background-color: transparent;
+      content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='3' y='7' width='11' height='1' fill='%23B6BDFC'/%3E%3Cpath d='M11.5001 7.5C11.5001 9.15685 10.157 10.5 8.50012 10.5C6.84327 10.5 5.50012 9.15685 5.50012 7.5C5.50012 5.84315 6.84327 4.5 8.50012 4.5C10.157 4.5 11.5001 5.84315 11.5001 7.5Z' fill='%230B23F4' stroke='white'/%3E%3C/svg%3E%0A");
+      width: 16px;
+      height: 16px;
+    }
+  }
+  &.remaining {
+    position: absolute;
+    left: 15px;
+    bottom: 60px;
+
+    &::before {
+      background-color: #b6bdfc;
+    }
+  }
+  &.realized {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    &::before {
+      background-color: var(--primary);
+    }
   }
 }

@@ -2,8 +2,7 @@ import styles from "./KmCard.module.css";
 import { useContext, useState } from "react";
 import AuthContext from "../../utils/context/AuthContext";
 import RangeDate from "../RangeDate/RangeDate";
-
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
 function KmCard() {
   const { activityUser } = useContext(AuthContext);
@@ -12,18 +11,18 @@ function KmCard() {
 
   function getStartDate(lastActivityDate) {
     const startDate = new Date(lastActivityDate);
-    startDate.setDate(startDate.getDate() - 27);
+    startDate.setDate(startDate.getDate() - 28);
     return startDate;
   }
   const startDate = getStartDate(lastActivityDate);
 
-  // State for the selected date range
+  // Dates pour le component RangeDate
   const [startMonthDate, setStartMonthDate] = useState(startDate);
   const [endMonthDate, setEndMonthDate] = useState(
     () => new Date(lastActivityDate),
   );
 
-  // Generate an array of weeks within the selected date range
+  // Tableau pour les 4 dernières semaines
   const weeks = Array.from({ length: 4 }, (_, weekIndex) => {
     const start = new Date(startMonthDate);
     start.setDate(start.getDate() + weekIndex * 7);
@@ -37,7 +36,6 @@ function KmCard() {
   console.log("weeks", weeks);
 
   function calculateDistanceForWeek(week) {
-    // array of activities within the week
     const weekActivities = activityUser.filter((activity) => {
       const activityDate = new Date(activity.date);
       return activityDate >= week.start && activityDate <= week.end;
@@ -48,6 +46,7 @@ function KmCard() {
     );
   }
 
+  // Tableau de données pour le Chart
   const data = weeks.map((week, index) => ({
     week: `S${index + 1}`,
     km: calculateDistanceForWeek(week),
@@ -72,21 +71,32 @@ function KmCard() {
         />
       </div>
       Total des kilomètres 4 dernières semaines
-      <div className={styles.graph}>
+      <div className="graph">
         <BarChart
           style={{
             width: "100%",
             aspectRatio: 1,
-            maxWidth: 600,
             maxHeight: 330,
+          }}
+          margin={{
+            top: 10,
+            right: 12,
+            bottom: 0,
+            left: -20,
           }}
           responsive
           data={data}
         >
-          <XAxis dataKey="week" />
-          <YAxis />
+          <XAxis
+            dataKey="week"
+            tickLine={false}
+            tick={{
+              fontSize: 12,
+              fill: "#707070",
+            }}
+          />
+          <YAxis tickLine={false} domain={[0, 30]} />
           <Tooltip cursor={{ fill: "transparent" }} />
-          <Legend />
           <Bar
             dataKey="km"
             fill="#B6BDFC"
@@ -98,6 +108,9 @@ function KmCard() {
             isAnimationActive={true}
           />
         </BarChart>
+      </div>
+      <div className="legend-graph">
+        <div className="item-legend-graph km">Km</div>
       </div>
     </div>
   );
