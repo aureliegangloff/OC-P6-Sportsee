@@ -9,10 +9,18 @@ import AuthContext from "../../utils/context/AuthContext";
 import StatsCard from "../../components/StatsCard/StatsCard";
 
 function ProfilePage() {
-  const { token } = useContext(AuthContext);
+  const { token, user, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return <p>Chargement du profil...</p>;
+  }
 
   if (!token) {
     return <Navigate to="/" replace />;
+  }
+
+  if (!user) {
+    return <p role="alert">Impossible de charger le profil utilisateur.</p>;
   }
 
   return (

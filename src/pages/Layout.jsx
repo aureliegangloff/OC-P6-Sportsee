@@ -1,32 +1,29 @@
-import { Outlet, Link, useNavigate, useParams } from "react-router";
+import { Outlet, Link, useNavigate } from "react-router";
 import { useContext, useEffect } from "react";
 
-import { users } from "../data/users";
+// import { users } from "../data/users";
 import logo from "../assets/logo.png";
 import iconLogo from "../assets/icon-logo.png";
 import AuthContext from "../utils/context/AuthContext";
 import "./Layout.css";
 
 function MainLayout() {
-  const { userId } = useParams();
   const navigate = useNavigate();
-  const { token, logout } = useContext(AuthContext);
-
-  const user = users.find((item) => item.id === userId);
+  const { token, user, loading, logout } = useContext(AuthContext);
   const hasValidSession = Boolean(token && user);
 
   useEffect(() => {
-    if (!hasValidSession && window.location.pathname !== "/") {
+    if (!loading && !hasValidSession && window.location.pathname !== "/") {
       navigate("/", { replace: true });
     }
-  }, [hasValidSession, navigate]);
+  }, [hasValidSession, loading, navigate]);
 
   const handleLogout = () => {
     logout();
     navigate("/", { replace: true });
   };
 
-  if (!hasValidSession) {
+  if (loading || !hasValidSession) {
     return <Outlet />;
   }
 
@@ -37,8 +34,8 @@ function MainLayout() {
           <img src={logo} alt="Logo Sportsee" width="157" height="24" />
           <div className="account-nav">
             <nav>
-              <Link to={`/dashboard/${user.id}`}>Dashboard</Link>
-              <Link to={`/profile/${user.id}`}>Mon profil</Link>
+              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/profile">Mon profil</Link>
               <button type="button" onClick={handleLogout}>
                 Se déconnecter
               </button>

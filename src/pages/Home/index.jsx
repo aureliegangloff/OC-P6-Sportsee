@@ -2,32 +2,77 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import styles from "./Home.module.css";
 import logo from "../../assets/logo.png";
-import { users } from "../../data/users";
+// import { users } from "../../data/users";
 
+import { fetchLoginUser } from "../../utils/api.js";
 import AuthContext from "../../utils/context/AuthContext";
+
+function getLoginErrorMessage(error) {
+  if (error instanceof TypeError) {
+    return "Impossible de joindre le serveur. Vérifiez votre connexion puis réessayez.";
+  }
+
+  const status = error?.status;
+  const code = error?.code;
+
+  if (code === "LOGIN" && [400, 401].includes(status)) {
+    return "Adresse e-mail ou mot de passe incorrect.";
+  }
+
+  if (code === "USER_INFO" && status === 401) {
+    return "La connexion n’a pas pu être validée. Veuillez réessayer.";
+  }
+
+  if (status === 403) {
+    return "Vous n’êtes pas autorisé à accéder à ce service.";
+  }
+
+  if (status === 404) {
+    return "Le service de connexion est introuvable. Veuillez réessayer plus tard.";
+  }
+
+  if (status >= 500) {
+    return "Le serveur rencontre un problème. Veuillez réessayer plus tard.";
+  }
+
+  return "Une erreur inattendue est survenue. Veuillez réessayer.";
+}
 
 function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (event) => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const matchedUser = users.find(
-      (user) => user.username === username.trim() && user.password === password,
-    );
+    try {
+      setLoading(true);
+      setError(null);
 
-    if (!matchedUser) {
-      setError("Identifiants incorrects. Veuillez réessayer.");
-      return;
+      const { token } = await fetchLoginUser(username, password);
+      await login(token);
+      navigate(`/dashboard`);
+    } catch (error) {
+      setError(getLoginErrorMessage(error));
+    } finally {
+      setLoading(false);
     }
 
-    setError("");
-    login(matchedUser.token, matchedUser.id);
-    navigate(`/dashboard/${matchedUser.id}`);
+    // const matchedUser = users.find(
+    //   (user) => user.username === username.trim() && user.password === password,
+    // );
+
+    // if (!matchedUser) {
+    //   setError("Identifiants incorrects. Veuillez réessayer.");
+    //   return;
+    // }
+    // login(matchedUser.token, matchedUser.id);
+    // navigate(`/dashboard/${matchedUser.id}`);
   };
 
   return (
@@ -62,10 +107,14 @@ function Home() {
               />
             </div>
 
-            {error && <p role="alert">{error}</p>}
+            {error && (
+              <p role="alert" className={styles.alert}>
+                {error}
+              </p>
+            )}
 
             <button className={`${styles.submitBtn}, btn-blue`} type="submit">
-              Se connecter
+              {loading ? "Connexion en cours..." : "Se connecter"}
             </button>
           </form>
           <a href="#" className={styles.forget}>

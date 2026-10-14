@@ -1,28 +1,27 @@
 import styles from "./BpmCard.module.css";
-import { useContext, useState } from "react";
-import AuthContext from "../../utils/context/AuthContext";
+import { useState } from "react";
+import { useUserActivity } from "../../utils/Hooks/useUserActivity.js";
 import RangeDate from "../RangeDate/RangeDate";
 import { ComposedChart, Bar, Line, XAxis, YAxis, Tooltip } from "recharts";
+import { toLocalDateString } from "../../utils/dates";
 
 function BpmCard({ startWeekDate, endWeekDate }) {
-  const { activityUser } = useContext(AuthContext);
-
-  const [startDate, setStartDate] = useState(startWeekDate);
-  const [endDate, setEndDate] = useState(endWeekDate);
+  const [startDate, setStartDate] = useState(new Date(startWeekDate));
+  const [endDate, setEndDate] = useState(new Date(endWeekDate));
 
   // Activités comprises dans la période sélectionnée
-  const selectedActivities = activityUser.filter((activity) => {
-    const activityDate = new Date(activity.date);
-    return activityDate >= startDate && activityDate <= endDate;
-  });
+  const { data: weekActivities, error: weekError } = useUserActivity(
+    toLocalDateString(startDate),
+    toLocalDateString(endDate),
+  );
 
   // BPM moyen de la période
-  const bpmAverage = selectedActivities.length
+  const bpmAverage = weekActivities.length
     ? Math.round(
-        selectedActivities.reduce(
+        weekActivities.reduce(
           (total, activity) => total + activity.heartRate.average,
           0,
-        ) / selectedActivities.length,
+        ) / weekActivities.length,
       )
     : 0;
 
@@ -33,7 +32,7 @@ function BpmCard({ startWeekDate, endWeekDate }) {
 
     const dateString = date.toISOString().split("T")[0]; // date format
 
-    const activity = activityUser.find(
+    const activity = weekActivities.find(
       (activity) => activity.date === dateString,
     );
 
@@ -46,8 +45,10 @@ function BpmCard({ startWeekDate, endWeekDate }) {
       averageBPM: activity ? activity.heartRate.average : null,
     };
   });
+
   return (
     <div className={styles.BpmCard}>
+      {weekError && <p>Erreur : {weekError}</p>}
       <div className={styles.header}>
         <div className={styles.title}>{bpmAverage} BPM</div>
         <RangeDate

@@ -1,25 +1,31 @@
 import styles from "./KmCard.module.css";
-import { useContext, useState } from "react";
-import AuthContext from "../../utils/context/AuthContext";
+import { useState } from "react";
 import RangeDate from "../RangeDate/RangeDate";
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { useUserActivity } from "../../utils/Hooks/useUserActivity.js";
+import { getNextSunday, toLocalDateString } from "../../utils/dates";
 
 function KmCard() {
-  const { activityUser } = useContext(AuthContext);
+  const today = new Date();
+  const nextSunday = getNextSunday(today);
 
-  const lastActivityDate = activityUser[activityUser.length - 1].date;
-
-  function getStartDate(lastActivityDate) {
-    const startDate = new Date(lastActivityDate);
+  function getStartDate(nextSunday) {
+    const startDate = new Date(nextSunday);
     startDate.setDate(startDate.getDate() - 28);
     return startDate;
   }
-  const startDate = getStartDate(lastActivityDate);
+
+  const startDate = toLocalDateString(getStartDate(today));
+  const endDate = toLocalDateString(nextSunday);
 
   // Dates pour le component RangeDate
   const [startMonthDate, setStartMonthDate] = useState(startDate);
-  const [endMonthDate, setEndMonthDate] = useState(
-    () => new Date(lastActivityDate),
+  const [endMonthDate, setEndMonthDate] = useState(endDate);
+
+  // get activities of the last 4 weeks
+  const { data: FourWeeksActivities, error: FourWeeksError } = useUserActivity(
+    startMonthDate,
+    endMonthDate,
   );
 
   // Tableau pour les 4 dernières semaines
@@ -33,10 +39,8 @@ function KmCard() {
     return { start, end };
   });
 
-  console.log("weeks", weeks);
-
   function calculateDistanceForWeek(week) {
-    const weekActivities = activityUser.filter((activity) => {
+    const weekActivities = FourWeeksActivities.filter((activity) => {
       const activityDate = new Date(activity.date);
       return activityDate >= week.start && activityDate <= week.end;
     });
@@ -60,6 +64,7 @@ function KmCard() {
 
   return (
     <div className={styles.kmCard}>
+      {FourWeeksError && <p>Erreur : {FourWeeksError}</p>}
       <div className={styles.header}>
         <div className={styles.title}>{averageLastMonth}km en moyenne</div>
         <RangeDate

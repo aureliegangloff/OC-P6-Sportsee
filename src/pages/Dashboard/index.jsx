@@ -1,17 +1,36 @@
+import styles from "./Dashboard.module.css";
 import { Link, Navigate } from "react-router";
 import { useContext } from "react";
-import { getLastMonday, getNextSunday } from "../../utils/dates";
+import {
+  getLastMonday,
+  getNextSunday,
+  toLocalDateString,
+} from "../../utils/dates";
 
 import UserCard from "../../components/UserCard/UserCard.jsx";
 import KmCard from "../../components/KmCard/KmCard.jsx";
-import styles from "./Dashboard.module.css";
 import BpmCard from "../../components/BpmCard/BpmCard.jsx";
 import GoalCard from "../../components/GoalCard/GoalCard.jsx";
 
 import AuthContext from "../../utils/context/AuthContext";
+import { useUserActivity } from "../../utils/Hooks/useUserActivity.js";
 
 function DashboardPage() {
-  const { token, user, activityUser } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
+
+  const today = new Date();
+  const lastMonday = getLastMonday(today);
+  const nextSunday = getNextSunday(today);
+
+  const startWeek = toLocalDateString(lastMonday);
+  const endWeek = toLocalDateString(nextSunday);
+
+  // get activities of the week
+  const { data: activities, error: weeklyError } = useUserActivity(
+    startWeek,
+    endWeek,
+  );
+  const weeklyActivities = activities;
 
   if (!token) {
     return <Navigate to="/" replace />;
@@ -26,32 +45,30 @@ function DashboardPage() {
     );
   }
 
-  const nbActivities = activityUser.length - 1;
-  const dateLastActivity = activityUser[nbActivities].date;
+  // MOCK
+  // const weekActivities = activityUser.filter((activity) => {
+  //   const activityDate = new Date(activity.date);
+  //   return activityDate >= lastMonday && activityDate <= nextSunday;
+  // });
+  const weeklyRaces = weeklyActivities.length;
 
-  const lastMonday = getLastMonday(new Date(dateLastActivity));
-  const nextSunday = getNextSunday(new Date(dateLastActivity));
-
-  const startWeekDate = new Date(lastMonday).toLocaleDateString("fr-FR");
-  const endWeekDate = new Date(nextSunday).toLocaleDateString("fr-FR");
-
-  const weekActivities = activityUser.filter((activity) => {
-    const activityDate = new Date(activity.date);
-    return activityDate >= lastMonday && activityDate <= nextSunday;
-  });
-  const weeklyRaces = weekActivities.length;
-
-  const activityDuration = weekActivities.reduce(
+  const activityDuration = weeklyActivities.reduce(
     (total, activity) => total + activity.duration,
     0,
   );
-  const distance = weekActivities.reduce(
+  const distance = weeklyActivities.reduce(
     (total, activity) => total + activity.distance,
     0,
   );
 
+  //Affichage dates section "Cette semaine"
+  const startWeekDate = lastMonday.toLocaleDateString("fr-FR");
+  const endWeekDate = nextSunday.toLocaleDateString("fr-FR");
+
   return (
     <div className="dashboard">
+      {weeklyError && <p>Erreur : {weeklyError}</p>}
+
       <UserCard distance={true} />
 
       <section className={styles.performancesSection}>

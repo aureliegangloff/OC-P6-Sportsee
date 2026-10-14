@@ -1,13 +1,12 @@
 import styles from "./StatsCard.module.css";
 import { useContext } from "react";
 import AuthContext from "../../utils/context/AuthContext";
+import { useUserActivity } from "../../utils/Hooks/useUserActivity.js";
+import { toLocalDateString } from "../../utils/dates";
 
 function StatsCard() {
-  const { user, activityUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
-  if (!user) {
-    return <div className="stats-card-empty">Utilisateur introuvable.</div>;
-  }
   const memberSince = new Date(user.profile.createdAt).toLocaleDateString(
     "fr-FR",
     {
@@ -16,13 +15,22 @@ function StatsCard() {
       year: "numeric",
     },
   );
+  const today = toLocalDateString(new Date());
+  // get activities of the week
+  const { data: activities, error: error } = useUserActivity(
+    memberSince,
+    today,
+  );
 
+  if (!user) {
+    return <div className="stats-card-empty">Utilisateur introuvable.</div>;
+  }
   const totalDuration = {
     heures: Math.floor(user.statistics.totalDuration / 60),
     minutes: user.statistics.totalDuration % 60,
   };
 
-  const totalCalories = activityUser.reduce(
+  const totalCalories = activities.reduce(
     (total, activity) => total + activity.caloriesBurned,
     0,
   );
@@ -30,9 +38,7 @@ function StatsCard() {
   const restDays = (createdAt, activityUser) => {
     const startDate = new Date(createdAt);
     const endDate = new Date(
-      activityUser.length
-        ? activityUser[activityUser.length - 1].date
-        : new Date(),
+      activities.length ? activities[activities.length - 1].date : new Date(),
     );
     const totalDays = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
     const activeDays = activityUser.length;
@@ -41,6 +47,7 @@ function StatsCard() {
 
   return (
     <div className={styles.statsCard}>
+      {error && <p>Erreur : {error}</p>}
       <h2>Vos statistiques</h2>
       <p>depuis le {memberSince}</p>
 
@@ -60,7 +67,7 @@ function StatsCard() {
         </div>
         <div className={styles.statCard}>
           <p>Nombre de jours de repos</p>
-          <span>{restDays(user.profile.createdAt, activityUser)}</span> jours
+          <span>{restDays(user.profile.createdAt, activities)}</span> jours
         </div>
         <div className={styles.statCard}>
           <p>Nombre de sessions</p>

@@ -19,8 +19,8 @@ const router = createBrowserRouter([
       {
         Component: AccountLayout,
         children: [
-          { path: "/dashboard/:userId", Component: DashboardPage },
-          { path: "/profile/:userId", Component: ProfilePage },
+          { path: "/dashboard", Component: DashboardPage },
+          { path: "/profile", Component: ProfilePage },
         ],
       },
       {
