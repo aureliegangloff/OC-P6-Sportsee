@@ -9,12 +9,11 @@ const AUTH_TOKEN_NAME = "sportsee_token";
 export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(() => {
     const savedToken = getCookie(AUTH_TOKEN_NAME);
-    // const savedUserInfos = await fetchUserInfos(savedToken) ?? null;
 
     return {
       token: savedToken,
-      // user: savedUserInfos,
       user: null,
+      loading: Boolean(savedToken),
     };
   });
 
@@ -27,10 +26,11 @@ export const AuthProvider = ({ children }) => {
         setSession((current) => ({
           ...current,
           user: user ?? null,
+          loading: false,
         }));
       } catch {
         deleteCookie(AUTH_TOKEN_NAME);
-        setSession({ token: null, user: null });
+        setSession({ token: null, user: null, loading: false });
       }
     };
 
@@ -44,13 +44,14 @@ export const AuthProvider = ({ children }) => {
     setSession({
       token,
       user,
+      loading: false,
     });
   };
 
   const logout = () => {
     // Supprime le cookie et réinitialise les données de session.
     deleteCookie(AUTH_TOKEN_NAME);
-    setSession({ token: null, user: null });
+    setSession({ token: null, user: null, loading: false });
   };
 
   return (

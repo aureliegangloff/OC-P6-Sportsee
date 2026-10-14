@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import styles from "./Home.module.css";
 import logo from "../../assets/logo.png";
 // import { users } from "../../data/users";
@@ -44,8 +44,12 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { login } = useContext(AuthContext);
+  const { token, login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  if (token) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -62,17 +66,6 @@ function Home() {
     } finally {
       setLoading(false);
     }
-
-    // const matchedUser = users.find(
-    //   (user) => user.username === username.trim() && user.password === password,
-    // );
-
-    // if (!matchedUser) {
-    //   setError("Identifiants incorrects. Veuillez réessayer.");
-    //   return;
-    // }
-    // login(matchedUser.token, matchedUser.id);
-    // navigate(`/dashboard/${matchedUser.id}`);
   };
 
   return (

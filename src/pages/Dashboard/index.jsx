@@ -16,7 +16,7 @@ import AuthContext from "../../utils/context/AuthContext";
 import { useUserActivity } from "../../utils/Hooks/useUserActivity.js";
 
 function DashboardPage() {
-  const { token, user } = useContext(AuthContext);
+  const { token, user, loading: authLoading } = useContext(AuthContext);
 
   const today = new Date();
   const lastMonday = getLastMonday(today);
@@ -26,11 +26,16 @@ function DashboardPage() {
   const endWeek = toLocalDateString(nextSunday);
 
   // get activities of the week
-  const { data: activities, error: weeklyError } = useUserActivity(
-    startWeek,
-    endWeek,
-  );
+  const {
+    data: activities,
+    loading: activitiesLoading,
+    error: weeklyError,
+  } = useUserActivity(startWeek, endWeek);
   const weeklyActivities = activities;
+
+  if (authLoading) {
+    return <p role="status">Chargement du tableau de bord...</p>;
+  }
 
   if (!token) {
     return <Navigate to="/" replace />;
@@ -43,6 +48,10 @@ function DashboardPage() {
         <Link to="/">Retour à l'accueil</Link>
       </div>
     );
+  }
+
+  if (activitiesLoading) {
+    return <p role="status">Chargement de vos activités...</p>;
   }
 
   // MOCK
@@ -67,7 +76,7 @@ function DashboardPage() {
 
   return (
     <div className="dashboard">
-      {weeklyError && <p>Erreur : {weeklyError}</p>}
+      {weeklyError && <p role="alert">Erreur : {weeklyError.message}</p>}
 
       <UserCard distance={true} />
 

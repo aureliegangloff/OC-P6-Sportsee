@@ -6,10 +6,14 @@ export const useUserActivity = (startDate, endDate) => {
   const { token } = useContext(AuthContext);
 
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(Boolean(token));
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!token) {
+      return;
+    }
+
     const loadActivity = async () => {
       try {
         setLoading(true);

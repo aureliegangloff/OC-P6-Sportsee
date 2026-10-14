@@ -9,21 +9,21 @@ import "./Layout.css";
 
 function MainLayout() {
   const navigate = useNavigate();
-  const { token, user, loading, logout } = useContext(AuthContext);
-  const hasValidSession = Boolean(token && user);
+  const { token, logout } = useContext(AuthContext);
+  const hasValidSession = Boolean(token);
 
   useEffect(() => {
-    if (!loading && !hasValidSession && window.location.pathname !== "/") {
+    if (!hasValidSession && window.location.pathname !== "/") {
       navigate("/", { replace: true });
     }
-  }, [hasValidSession, loading, navigate]);
+  }, [hasValidSession, navigate]);
 
   const handleLogout = () => {
     logout();
     navigate("/", { replace: true });
   };
 
-  if (loading || !hasValidSession) {
+  if (!hasValidSession) {
     return <Outlet />;
   }
 
