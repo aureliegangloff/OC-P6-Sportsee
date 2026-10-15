@@ -23,10 +23,11 @@ function KmCard() {
   const [endMonthDate, setEndMonthDate] = useState(endDate);
 
   // get activities of the last 4 weeks
-  const { data: FourWeeksActivities, error: FourWeeksError } = useUserActivity(
-    startMonthDate,
-    endMonthDate,
-  );
+  const {
+    data: FourWeeksActivities,
+    loading: FourWeeksLoading,
+    error: FourWeeksError,
+  } = useUserActivity(startMonthDate, endMonthDate);
 
   // Tableau pour les 4 dernières semaines
   const weeks = Array.from({ length: 4 }, (_, weekIndex) => {
@@ -64,6 +65,7 @@ function KmCard() {
 
   return (
     <div className={styles.kmCard}>
+      {FourWeeksLoading && <p>Chargement en cours</p>}
       {FourWeeksError && <p>Erreur : {FourWeeksError}</p>}
       <div className={styles.header}>
         <div className={styles.title}>{averageLastMonth}km en moyenne</div>

@@ -10,10 +10,11 @@ function BpmCard({ startWeekDate, endWeekDate }) {
   const [endDate, setEndDate] = useState(new Date(endWeekDate));
 
   // Activités comprises dans la période sélectionnée
-  const { data: weekActivities, error: weekError } = useUserActivity(
-    toLocalDateString(startDate),
-    toLocalDateString(endDate),
-  );
+  const {
+    data: weekActivities,
+    loading: weekLoading,
+    error: weekError,
+  } = useUserActivity(toLocalDateString(startDate), toLocalDateString(endDate));
 
   // BPM moyen de la période
   const bpmAverage = weekActivities.length
@@ -49,6 +50,7 @@ function BpmCard({ startWeekDate, endWeekDate }) {
   return (
     <div className={styles.BpmCard}>
       {weekError && <p>Erreur : {weekError}</p>}
+      {weekLoading && <p>Chargement en cours...</p>}
       <div className={styles.header}>
         <div className={styles.title}>{bpmAverage} BPM</div>
         <RangeDate

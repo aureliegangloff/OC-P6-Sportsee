@@ -17,10 +17,11 @@ function StatsCard() {
   );
   const today = toLocalDateString(new Date());
   // get activities of the week
-  const { data: activities, error: error } = useUserActivity(
-    memberSince,
-    today,
-  );
+  const {
+    data: activities,
+    loading: loading,
+    error: error,
+  } = useUserActivity(memberSince, today);
 
   if (!user) {
     return <div className="stats-card-empty">Utilisateur introuvable.</div>;
@@ -47,6 +48,7 @@ function StatsCard() {
 
   return (
     <div className={styles.statsCard}>
+      {loading && <p>Chargement en cours...</p>}
       {error && <p>Erreur : {error}</p>}
       <h2>Vos statistiques</h2>
       <p>depuis le {memberSince}</p>

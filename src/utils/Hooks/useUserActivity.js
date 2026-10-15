@@ -18,7 +18,6 @@ export const useUserActivity = (startDate, endDate) => {
       try {
         setLoading(true);
         setError(null);
-
         const activities = await fetchUserActivities(token, startDate, endDate);
         setData(activities);
       } catch (error) {
