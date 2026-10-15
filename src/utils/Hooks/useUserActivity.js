@@ -21,7 +21,11 @@ export const useUserActivity = (startDate, endDate) => {
         const activities = await fetchUserActivities(token, startDate, endDate);
         setData(activities);
       } catch (error) {
-        setError(error);
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Impossible de récupérer les activités.",
+        );
       } finally {
         setLoading(false);
       }
