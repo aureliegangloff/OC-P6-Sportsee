@@ -25,7 +25,7 @@ function DashboardPage() {
   const startWeek = toLocalDateString(lastMonday);
   const endWeek = toLocalDateString(nextSunday);
 
-  // get activities of the week
+  // Get the activities for the week
   const {
     data: activities,
     loading: activitiesLoading,
@@ -65,7 +65,7 @@ function DashboardPage() {
     0,
   );
 
-  //Affichage dates section "Cette semaine"
+  // Display the dates in the "This week" section
   const startWeekDate = lastMonday.toLocaleDateString("fr-FR");
   const endWeekDate = nextSunday.toLocaleDateString("fr-FR");
 

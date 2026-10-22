@@ -1,13 +1,13 @@
 export function getLastMonday(date) {
   const result = new Date(date);
-  // getDay() renvoie : 0 pour dimanche, 1 pour lundi, ..., 6 pour samedi
+  // getDay() returns: 0 for Sunday, 1 for Monday, ..., 6 for Saturday
   const dayOfTheWeek = result.getDay();
 
-  // Si c'est dimanche (0), on doit reculer de 6 jours.
-  // Sinon, on recule de (jourSemaine - 1) jours.
+  // If it's Sunday (0), go back 6 days.
+  // Otherwise, go back (dayOfTheWeek - 1) days.
   const daysToSubtract = dayOfTheWeek === 0 ? 6 : dayOfTheWeek - 1;
 
-  // Modifier la date en soustrayant les jours
+  // Update the date by subtracting the days
   result.setDate(result.getDate() - daysToSubtract);
 
   return result;
@@ -16,8 +16,8 @@ export function getLastMonday(date) {
 export function getNextSunday(date) {
   const result = new Date(date);
   const dayOfTheWeek = result.getDay();
-  // Si c'est dimanche (0), on avance de 7 jours (ou 0 si vous voulez le jour même)
-  // Sinon, on fait (7 - jourSemaine) pour atteindre le dimanche
+  // If it's Sunday (0), move forward 7 days (or 0 to keep the same day).
+  // Otherwise, add (7 - dayOfTheWeek) to reach Sunday.
   const daysToAdd = dayOfTheWeek === 0 ? 0 : 7 - dayOfTheWeek;
   result.setDate(result.getDate() + daysToAdd);
 

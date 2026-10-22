@@ -1,4 +1,4 @@
-// Création du cookie
+// Create the cookie
 export function setCookie(name, value, days = 1) {
   const expires = new Date(
     Date.now() + days * 24 * 60 * 60 * 1000,
@@ -7,7 +7,7 @@ export function setCookie(name, value, days = 1) {
   document.cookie = `${name}=${encodeURIComponent(value)}; path=/; expires=${expires}; SameSite=Lax`;
 }
 
-// Lecture du cookie
+// Read the cookie
 export function getCookie(name) {
   const cookies = document.cookie.split("; ");
   const foundCookie = cookies.find((cookie) => cookie.startsWith(`${name}=`));
@@ -19,7 +19,7 @@ export function getCookie(name) {
   return decodeURIComponent(foundCookie.split("=")[1]);
 }
 
-// Expiration (suppression) du cookie
+// Expire (delete) the cookie
 export function deleteCookie(name) {
   document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 }

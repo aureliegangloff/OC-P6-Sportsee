@@ -1,6 +1,6 @@
 const MOCK = "mock";
 const API_BASE_URL = "http://localhost:8000/api";
-const CHOOSE_DATA = MOCK;
+const CHOOSE_DATA = API_BASE_URL;
 
 import { users } from "../data/users";
 import { userActivity } from "../data/user-activity";

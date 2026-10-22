@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   }, [session.token]);
 
   const login = async (token) => {
-    // Enregistre le token et synchronise l'utilisateur
+    // Save the token and sync the user
     const user = await fetchUserInfos(token);
     setCookie(AUTH_TOKEN_NAME, token, 1);
     setSession({
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    // Supprime le cookie et réinitialise les données de session.
+    // Delete the cookie and reset the session data.
     deleteCookie(AUTH_TOKEN_NAME);
     setSession({ token: null, user: null, loading: false });
   };

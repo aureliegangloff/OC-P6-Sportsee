@@ -9,14 +9,14 @@ function BpmCard({ startWeekDate, endWeekDate }) {
   const [startDate, setStartDate] = useState(new Date(startWeekDate));
   const [endDate, setEndDate] = useState(new Date(endWeekDate));
 
-  // Activités comprises dans la période sélectionnée
+  // Activities within the selected period
   const {
     data: weekActivities,
     loading: weekLoading,
     error: weekError,
   } = useUserActivity(toLocalDateString(startDate), toLocalDateString(endDate));
 
-  // BPM moyen de la période
+  // Average BPM for the period
   const bpmAverage = weekActivities.length
     ? Math.round(
         weekActivities.reduce(
@@ -26,7 +26,7 @@ function BpmCard({ startWeekDate, endWeekDate }) {
       )
     : 0;
 
-  // Tableau des activités par jour de la semaine
+  // Activities grouped by day of the week
   const data = Array.from({ length: 7 }, (_, index) => {
     const date = new Date(startDate);
     date.setDate(date.getDate() + index);
