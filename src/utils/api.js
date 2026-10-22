@@ -1,6 +1,6 @@
 const MOCK = "mock";
 const API_BASE_URL = "http://localhost:8000/api";
-const CHOOSE_DATA = API_BASE_URL;
+const CHOOSE_DATA = MOCK;
 
 import { users } from "../data/users";
 import { userActivity } from "../data/user-activity";
@@ -38,8 +38,7 @@ const getMockActivity = (token, startDate, endDate) => {
   }
 
   const selectedActivities = userActivities.activities.filter((activity) => {
-    const activityDate = new Date(activity.date);
-    return activityDate >= startDate && activityDate <= endDate;
+    return activity.date >= startDate && activity.date <= endDate;
   });
   return selectedActivities;
 };

@@ -5,7 +5,7 @@ export const users = [
     password: "password123",
     token: "token123",
     profile: {
-      firstName: "Sophie",
+      firstName: "Elodie",
       lastName: "Martin",
       createdAt: "2025-01-01",
       age: 32,

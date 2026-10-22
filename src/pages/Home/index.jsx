@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 import { Navigate, useNavigate } from "react-router";
 import styles from "./Home.module.css";
 import logo from "../../assets/logo.png";
-// import { users } from "../../data/users";
 
 import { fetchLoginUser } from "../../utils/api.js";
 import AuthContext from "../../utils/context/AuthContext";

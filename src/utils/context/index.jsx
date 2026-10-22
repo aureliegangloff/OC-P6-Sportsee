@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { deleteCookie, getCookie, setCookie } from "../cookies";
 import AuthContext from "./AuthContext";
 import { fetchUserInfos } from "../api";
-// import { users } from "../../data/users";
 
 const AUTH_TOKEN_NAME = "sportsee_token";
 

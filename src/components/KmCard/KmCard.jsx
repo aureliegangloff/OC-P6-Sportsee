@@ -15,10 +15,10 @@ function KmCard() {
     return startDate;
   }
 
-  const startDate = toLocalDateString(getStartDate(today));
+  const startDate = toLocalDateString(getStartDate(nextSunday));
   const endDate = toLocalDateString(nextSunday);
 
-  // Dates pour le component RangeDate
+  // Dates for RangeDate
   const [startMonthDate, setStartMonthDate] = useState(startDate);
   const [endMonthDate, setEndMonthDate] = useState(endDate);
 
@@ -29,7 +29,7 @@ function KmCard() {
     error: FourWeeksError,
   } = useUserActivity(startMonthDate, endMonthDate);
 
-  // Tableau pour les 4 dernières semaines
+  // Array for last 4 weeks
   const weeks = Array.from({ length: 4 }, (_, weekIndex) => {
     const start = new Date(startMonthDate);
     start.setDate(start.getDate() + weekIndex * 7);
@@ -51,7 +51,7 @@ function KmCard() {
     );
   }
 
-  // Tableau de données pour le Chart
+  // Data Array for chart
   const data = weeks.map((week, index) => ({
     week: `S${index + 1}`,
     km: calculateDistanceForWeek(week),

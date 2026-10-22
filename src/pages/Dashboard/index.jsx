@@ -54,11 +54,6 @@ function DashboardPage() {
     return <p role="status">Chargement de vos activités...</p>;
   }
 
-  // MOCK
-  // const weekActivities = activityUser.filter((activity) => {
-  //   const activityDate = new Date(activity.date);
-  //   return activityDate >= lastMonday && activityDate <= nextSunday;
-  // });
   const weeklyRaces = weeklyActivities.length;
 
   const activityDuration = weeklyActivities.reduce(

@@ -1,4 +1,5 @@
 import styles from "./RangeDate.module.css";
+import { toLocalDateString } from "../../utils/dates";
 
 function RangeDate({
   startDate,
@@ -18,22 +19,21 @@ function RangeDate({
 
   const rangePeriod = typeRange === "month" ? 28 : 7;
 
+  // Shift the date while preserving the format used by the parent component.
+  const shiftDate = (value, amount) => {
+    const newDate = new Date(value);
+    newDate.setDate(newDate.getDate() + amount);
+    return value instanceof Date ? newDate : toLocalDateString(newDate);
+  };
+
   return (
     <div className={styles.rangedate}>
       <button
         type="button"
         className={styles.previous}
         onClick={() => {
-          setStartDate((prev) => {
-            const newDate = new Date(prev);
-            newDate.setDate(newDate.getDate() - rangePeriod);
-            return newDate;
-          });
-          setEndDate((prev) => {
-            const newDate = new Date(prev);
-            newDate.setDate(newDate.getDate() - rangePeriod);
-            return newDate;
-          });
+          setStartDate((prev) => shiftDate(prev, -rangePeriod));
+          setEndDate((prev) => shiftDate(prev, -rangePeriod));
         }}
       >
         &lt;
@@ -43,16 +43,8 @@ function RangeDate({
         type="button"
         className={styles.next}
         onClick={() => {
-          setStartDate((prev) => {
-            const newDate = new Date(prev);
-            newDate.setDate(newDate.getDate() + rangePeriod);
-            return newDate;
-          });
-          setEndDate((prev) => {
-            const newDate = new Date(prev);
-            newDate.setDate(newDate.getDate() + rangePeriod);
-            return newDate;
-          });
+          setStartDate((prev) => shiftDate(prev, rangePeriod));
+          setEndDate((prev) => shiftDate(prev, rangePeriod));
         }}
       >
         &gt;
